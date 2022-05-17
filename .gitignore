@@ -1,0 +1,18 @@
+*.env
+/node_modules
+
+async function findAndUpdate(req, schema, reqParams) {
+    const y = await ActionSchema.find(req.params.raut)
+    console.log(y[0])
+    console.log(req.params);
+    console.log(y[0].amount);
+    const body = req.body
+    await schema.findOneAndUpdate({ [reqParams]: y[0][reqParams] }, { [reqParams]: body[reqParams] })
+}
+app.post('/accounts/:id/:raut', (req, res) => {
+    const schema=req.params.raut=== "credit"||"isActive"? AccountSchema : "deposit"||"withdraw" ? ActionSchema : null
+    const reqParam=req.params==="credit"?"credit":"isActive"?"isActive":"deposit"||"withdraw"?"amount ":null
+    findAndUpdate(req, schema,reqParam)
+    res.send("succses")
+})
+
