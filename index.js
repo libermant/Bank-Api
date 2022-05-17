@@ -108,15 +108,16 @@ app.get('/accounts/:id/credit', (req, res, next) => {
 async function findAndUpdate(req, schema, reqParams) {
     const y = await schema.find(req.params)    
     console.log(req.params);
-    console.log(y);
-
+    //console.log(y);
     const body = req.body
     await schema.findOneAndUpdate({ [reqParams]: y[0][reqParams] }, { [reqParams]: body[reqParams] })
 }
+
+//ניסיון לעשות את כל ארבעת הנתיבים האחרונים יחד
 /*app.post('/accounts/:id/:raut', (req, res) => {
-    const schema=req.params=== "credit"||"isActive"? AccountSchema : "deposit"||"withdraw" ? ActionSchema : null
-    const reqParam=req.params==="credit"?"credit":"isActive"?"isActive":"deposit"||"withdraw"?"amount ":null
-    findAndUpdate(req, schema,"credit")
+    const schema=req.params.raut=== "credit"||"isActive"? AccountSchema : "deposit"||"withdraw" ? ActionSchema : null
+    const reqParam=req.params.raut==="credit"?"credit":"isActive"?"isActive":"deposit"||"withdraw"?"amount ":null
+    findAndUpdate(req, schema,reqParam)
     res.send("succses")
 })*/
 
@@ -124,18 +125,16 @@ async function findAndUpdate(req, schema, reqParams) {
 
 
 //findAndUpdate(req)
-app.post('/accounts/:id/credit', (req, res) => {
-    findAndUpdate(req, AccountSchema, "credit")
-    res.send("succses")
+//נתיב אחד שמאחד 2 ראוטים
+app.post('/accounts/:id/:raut', (req, res) => {
+    const reqParam=req.params.raut==="credit"?"credit":"isActive"?"isActive":null   
+    console.log(reqParam)  
+    res.send(findAndUpdate(req, AccountSchema, reqParam))
 })
 
 
-app.post('/accounts/:id/active', (req, res) => {
-    findAndUpdate(req, AccountSchema, "isActive")
-    res.send("succses")
-})
-
-app.post('/accounts/:account/deposit', (req, res) => {
+//    שתי הנתיבים האחרונים אל יש בעיה אם כותבים בנתיב אי די זה משתבש עם הנתיב הקודם ואם משנים פה את הנתיב הוא זורק שגיאה שכבר יש שימוש בפורט 50000
+/*app.post('/accounts/:account/deposit', (req, res) => {
     findAndUpdate(req, ActionSchema, "amount")
     res.send("secces")
 })
@@ -144,6 +143,14 @@ app.post('/accounts/:account/withdraw', (req, res) => {
     findAndUpdate(req, ActionSchema, "amount")
     res.send(req.params)
 })
+
+//ניסיון לעשות את 2 הנתיבים האחרונים יחד ללא הצלחה אין לסכמה הזאת אי די
+/*app.post('/accounts/:id/:raut', (req, res) => {
+    //const reqParam=req.params.raut==="deposit"||"withdraw" ? ActionSchema : null
+    
+    findAndUpdate(req, ActionSchema,"amount")
+    res.send("secces")
+})*/
 
 
 
