@@ -22,9 +22,7 @@ async function findUsers() {
 app.get('/accounts', async (req, res) => {
     res.send(await findUsers())
 })
-app.get('/test', (req, res) => {
-    res.send('Hello test')
-})
+
 
 //יצירת משתמש חדש****
 async function creatUser(id, credit, cash, isActive) {
@@ -74,7 +72,7 @@ async function findUserById(req) {
 }
 //findUserById(75)
 app.get('/accounts/:id', (req, res) => {
-    res.send(findUserById(req.params))
+    res.send(await findUserById(req.params))
 })
 
 
@@ -85,7 +83,7 @@ async function findActions() {
 }
 //findActions()
 app.get('/actions', (req, res) => {
-    res.send(findActions())
+    res.send(await findActions())
 })
 
 //מעדכן מסגרת אשראי לפי תז(נעשה בטעות ע"י בקשת גט )
@@ -97,7 +95,7 @@ async function findAndUpdateCredit(req) {
 }
 //findAndUpdateCredit(req)
 app.get('/accounts/:id/credit', (req, res, next) => {
-    findAndUpdateCredit(req)
+    await findAndUpdateCredit(req)
     next()
 },
     (req, res) => {
