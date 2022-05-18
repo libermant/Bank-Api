@@ -72,7 +72,7 @@ async function findUserById(req) {
 }
 //findUserById(75)
 app.get('/accounts/:id', (req, res) => {
-    res.send(await findUserById(req.params))
+    res.send( findUserById(req.params))
 })
 
 
@@ -83,7 +83,7 @@ async function findActions() {
 }
 //findActions()
 app.get('/actions', (req, res) => {
-    res.send(await findActions())
+    res.send( findActions())
 })
 
 //מעדכן מסגרת אשראי לפי תז(נעשה בטעות ע"י בקשת גט )
@@ -95,7 +95,7 @@ async function findAndUpdateCredit(req) {
 }
 //findAndUpdateCredit(req)
 app.get('/accounts/:id/credit', (req, res, next) => {
-    await findAndUpdateCredit(req)
+    findAndUpdateCredit(req)
     next()
 },
     (req, res) => {
